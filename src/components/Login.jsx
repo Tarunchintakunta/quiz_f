@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -9,15 +9,14 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/"; // Redirect to login page
-  };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://backend-wexa.onrender.com/auth/login", formData);
+      const response = await axios.post(
+        "https://backend-wexa.onrender.com/auth/login",
+        formData
+      );
       localStorage.setItem("token", response.data.access_token);
       alert("Login successful!");
       navigate("/dashboard");
@@ -111,9 +110,9 @@ const Login = () => {
         <div style={styles.footer}>
           <p>
             Don't have an account?{" "}
-            <a href="/signup" style={styles.link}>
+            <Link to="/signup" style={styles.link}>
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
