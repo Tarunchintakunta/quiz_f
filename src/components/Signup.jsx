@@ -13,7 +13,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:8000/auth/register", formData);
+      await axios.post("https://backend-wexa.onrender.com/auth/register", formData);
       alert("Signup successful!");
       navigate("/");
     } catch (error) {
