@@ -6,28 +6,26 @@ import Dashboard from "./components/Dashboard";
 import Quiz from "./components/Quiz";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+const routes = [
+  { path: "/signup", element: <Signup />, protected: false },
+  { path: "/", element: <Login />, protected: false },
+  { path: "/dashboard", element: <Dashboard />, protected: true },
+  { path: "/quiz", element: <Quiz />, protected: true },
+];
+
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/quiz"
-          element={
-            <ProtectedRoute>
-              <Quiz />
-            </ProtectedRoute>
-          }
-        />
+        {routes.map(({ path, element, protected: isProtected }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              isProtected ? <ProtectedRoute>{element}</ProtectedRoute> : element
+            }
+          />
+        ))}
       </Routes>
     </Router>
   );
