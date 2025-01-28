@@ -4,20 +4,28 @@ import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+  const [error, setError] = useState(""); // State for error handling
+  const [isSubmitting, setIsSubmitting] = useState(false); // State for button loading
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(""); // Clear error when user types
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(""); // Clear any previous errors
     try {
       await axios.post("https://backend-wexa.onrender.com/auth/register", formData);
       alert("Signup successful!");
-      navigate("/");
+      navigate("/"); // Redirect to login page
     } catch (error) {
-      alert("Error signing up: " + error.response.data.detail);
+      // Handle error response and set error message
+      setError(error.response?.data?.detail || "An unexpected error occurred");
+    } finally {
+      setIsSubmitting(false); // Reset the button state
     }
   };
 
@@ -28,6 +36,7 @@ const Signup = () => {
       alignItems: "center",
       height: "100vh",
       backgroundColor: "#f1f7fe",
+      padding: "16px",
     },
     formBox: {
       maxWidth: "400px",
@@ -58,19 +67,16 @@ const Signup = () => {
       fontSize: "1rem",
     },
     button: {
-      backgroundColor: "#007bff",
+      backgroundColor: isSubmitting ? "#ccc" : "#007bff", // Change color when submitting
       color: "#fff",
       padding: "12px",
       border: "none",
       borderRadius: "24px",
       fontSize: "1rem",
-      cursor: "pointer",
+      cursor: isSubmitting ? "not-allowed" : "pointer",
       width: "100%",
       marginTop: "12px",
       transition: "background-color 0.3s ease",
-    },
-    buttonHover: {
-      backgroundColor: "#0056b3",
     },
     footer: {
       marginTop: "16px",
@@ -80,6 +86,11 @@ const Signup = () => {
       color: "#007bff",
       textDecoration: "none",
     },
+    errorText: {
+      color: "red",
+      fontSize: "0.9rem",
+      marginBottom: "12px",
+    },
   };
 
   return (
@@ -88,29 +99,36 @@ const Signup = () => {
         <form onSubmit={handleSubmit}>
           <h2 style={styles.title}>Sign up</h2>
           <p style={styles.subtitle}>Create a free account with your email.</p>
+          {error && <p style={styles.errorText}>{error}</p>} {/* Display error message */}
           <input
             type="text"
             name="username"
             placeholder="Full Name"
             style={styles.input}
+            value={formData.username}
             onChange={handleChange}
+            required
           />
           <input
             type="email"
             name="email"
             placeholder="Email"
             style={styles.input}
+            value={formData.email}
             onChange={handleChange}
+            required
           />
           <input
             type="password"
             name="password"
             placeholder="Password"
             style={styles.input}
+            value={formData.password}
             onChange={handleChange}
+            required
           />
-          <button type="submit" style={styles.button}>
-            Sign up
+          <button type="submit" style={styles.button} disabled={isSubmitting}>
+            {isSubmitting ? "Signing up..." : "Sign up"} {/* Button text changes */}
           </button>
         </form>
         <div style={styles.footer}>
