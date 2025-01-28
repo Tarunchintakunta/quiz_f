@@ -1,9 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   const styles = {
     container: {
       height: "100vh",
@@ -16,6 +12,9 @@ const Dashboard = () => {
       color: "#ffffff",
       fontFamily: "'Arial', sans-serif",
     },
+  
+    
+  
     title: {
       fontSize: "3rem",
       fontWeight: "bold",
@@ -36,25 +35,26 @@ const Dashboard = () => {
       cursor: "pointer",
       transition: "all 0.3s ease",
     },
+    buttonHover: {
+      backgroundColor: "#ff4233",
+      color: "#ffffff",
+    },
   };
 
   return (
     <div style={styles.container}>
+      {/* Navbar */}
+
+
+      {/* Main Content */}
       <h1 style={styles.title}>Wexa's Quiz</h1>
       <p style={styles.subtitle}>
-        Welcome to Wexa's Quiz game.
+        Welcome to Wexa's Quiz game. 
       </p>
       <button
         style={styles.button}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "#ff4233";
-          e.target.style.color = "#ffffff";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "transparent";
-          e.target.style.color = "#ff4233";
-        }}
-        onClick={() => navigate("/quiz")}
+        onMouseEnter={(e) => (e.target.style.backgroundColor = "#ff4233", e.target.style.color = "#ffffff")}
+        onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent", e.target.style.color = "#ff4233")}
       >
         Start Quiz
       </button>

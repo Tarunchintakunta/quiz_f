@@ -1,15 +1,16 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://backend-wexa.onrender.com", // Update with your backend URL
+  baseURL: "https://backend-wexa.onrender.com", // Backend URL
 });
 
-export const signup = async (userData) => {
+// Fetch questions from the backend
+export const fetchQuestions = async () => {
   try {
-    const response = await api.post("/auth/register", userData); // Correct POST request
+    const response = await api.get("/questions/");
     return response.data;
   } catch (error) {
-    console.error("Signup error:", error);
+    console.error("Error fetching questions:", error);
     throw error;
   }
 };
